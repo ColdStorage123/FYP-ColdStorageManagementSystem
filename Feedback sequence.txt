@@ -1,0 +1,35 @@
+title : Registration Page
+
+actor User
+participant System
+participant Sign Up Page
+database Database
+participant Google Authentation
+
+User->System: Click "Sign Up" option
+System-> User: Display two options: "Sign Up as farmer or manager"
+User ->System: Select an option
+System -->Sign Up Page: Redirect to sign up page
+Sign Up Page ->User: Displays Sign Up page 
+note over User, Google Authentation : Process 1: Register using Registration form
+
+User->Sign Up Page:Enter details and click Sign Up button
+Sign Up Page->Sign Up Page:Check email and password format
+alt Format correct
+     Sign Up Page->Database: Creates and saves new account 
+else Incorrect Format
+     Sign Up Page->User:Ask User to correct the format
+end
+note over User, Google Authentation : Process 2: Register using Google
+
+User -> Sign Up Page: Click "SignUp using Google" button
+Sign Up Page -> Google Authentation: Redirect to Google Authentication page
+Google Authentation -> G Retrive user details
+alt User exists
+  Database --> "Google Authentation": Success Message
+  "Google Authentation" -> Homepage: Redirect to Home Page
+else User does not exist
+  Database --> "Google Authentation": Send error message
+  "Google Authentation" -> User: Display message "User not found"
+
+
